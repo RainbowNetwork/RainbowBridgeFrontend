@@ -307,6 +307,8 @@ export class UserStoreEx extends StoreConstructor {
     // Ask the user for permission
     await this.keplrWallet.enable(this.chainId);
 
+
+
     // @ts-ignore
     this.keplrOfflineSigner = window.getOfflineSigner(this.chainId);
     const accounts = await this.keplrOfflineSigner.getAccounts();

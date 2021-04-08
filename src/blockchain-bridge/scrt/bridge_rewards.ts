@@ -1,7 +1,7 @@
 import { CosmWasmClient, ExecuteResult, SigningCosmWasmClient } from 'secretjs';
 import { JsonObject } from 'secretjs/types/types';
 import { Snip20Send } from './snip20';
-import { AsyncSender } from './asyncSender';
+import { AsyncSender } from '.';
 
 interface IQueryRewards {
   rewards: {

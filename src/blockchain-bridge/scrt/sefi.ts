@@ -1,6 +1,6 @@
 import { CosmWasmClient, ExecuteResult, SigningCosmWasmClient } from 'secretjs';
 import { getScrtProof } from 'services';
-import { AsyncSender } from './asyncSender';
+import { AsyncSender } from '.';
 
 export const isClaimedSefiRewardsScrt = async (params: {
   secretjs: CosmWasmClient;

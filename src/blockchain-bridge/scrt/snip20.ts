@@ -1,7 +1,7 @@
 import { CosmWasmClient, ExecuteResult, SigningCosmWasmClient } from 'secretjs';
 import { divDecimals, unlockToken } from '../../utils';
 import { StdFee } from 'secretjs/types/types';
-import { AsyncSender } from './asyncSender';
+import { AsyncSender } from '.';
 
 export const Snip20SwapHash = (params: { tx_id: string; address: string }): string => {
   return `${params.tx_id}|${params.address}`;

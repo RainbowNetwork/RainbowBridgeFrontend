@@ -4,7 +4,7 @@ import { CosmWasmClient, ExecuteResult, SigningCosmWasmClient } from 'secretjs';
 import { Asset, Currency, NativeToken, Token, Trade, TradeType } from '../../pages/Swap/types/trade';
 import { GetContractCodeHash } from './snip20';
 import { extractValueFromLogs, getFeeForExecute, validateBech32Address } from './utils';
-import { AsyncSender } from './asyncSender';
+import { AsyncSender } from '.';
 
 export const buildAssetInfo = (currency: Currency) => {
   if (currency.token.info.type === 'native_token') {
