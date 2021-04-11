@@ -9,23 +9,26 @@ class CustomError extends Error {
 }
 
 export class AsyncSender extends SigningCosmWasmClient {
-
   asyncExecute = async (
     contractAddress: string,
     handleMsg: object,
     memo?: string,
     transferAmount?: readonly Coin[],
     fee?: StdFee,
+    notifier?: Function,
   ) => {
     let tx;
     try {
+      if (notifier) {
+        notifier('info', `Broadcasting transaction...`);
+      }
       tx = await this.execute(contractAddress, handleMsg, memo, transferAmount, fee);
     } catch (e) {
-      if (e.message === "Request rejected") {
+      if (e.message === 'Request rejected') {
         throw new CustomError('Transaction canceled');
       }
-      if (e.message.includes("502")) {
-        throw new CustomError("Server returned an error, but transaction might have been executed")
+      if (e.message.includes('502')) {
+        throw new CustomError('Server returned an error, but transaction might have been executed');
       } else {
         console.error(`failed to broadcast tx: ${e}`);
         throw new CustomError('Failed to broadcast transaction: Network error');
