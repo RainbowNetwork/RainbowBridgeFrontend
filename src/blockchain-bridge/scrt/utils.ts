@@ -19,6 +19,7 @@ export const validateBech32Address = (address: string): boolean => {
 };
 
 export function extractValueFromLogs(txResult: ExecuteResult, key: string, lastValue?: boolean): string {
+  console.log(`txresult: ${JSON.stringify(txResult.logs)}`);
   const wasmLogsReadonly = txResult?.logs[0]?.events?.find(e => e.type === 'wasm')?.attributes;
   let wasmLogs = Array.from(wasmLogsReadonly ?? []);
 

@@ -574,9 +574,11 @@ export class SwapRouter extends React.Component<
     if (type === 'errorWithHash') {
       cogoType = 'warn';
       onClick = () => {
-        const url = `https://secretnodes.com/secret/chains/secret-2/transactions/${txHash}`;
-        const win = window.open(url, '_blank');
-        win.focus();
+        if (txHash) {
+          const url = `https://secretnodes.com/secret/chains/secret-2/transactions/${txHash}`;
+          const win = window.open(url, '_blank');
+          win.focus();
+        }
         hide();
       };
     }

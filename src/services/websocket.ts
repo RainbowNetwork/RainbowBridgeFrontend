@@ -1,3 +1,117 @@
+import { sleep } from '../utils';
+import { ExecuteResult } from 'secretjs';
+
+export class WebSocketHandler {
+  private ws: WebSocket;
+
+  private result: any;
+
+  private initWebSocket = async (address: string) => {
+    this.result = undefined;
+
+    if (this.ws) {
+      while (this.ws.readyState === WebSocket.CONNECTING) {
+        await sleep(100);
+      }
+
+      if (this.ws.readyState === WebSocket.OPEN) {
+        this.ws.close(1012 /* Service Restart */, 'Refreshing connection');
+      }
+    }
+
+    this.ws = new WebSocket(process.env.SECRET_WS);
+
+    //const symbolUpdateHeightCache: { [symbol: string]: number } = {};
+
+    this.ws.onmessage = async event => {
+      let data;
+      try {
+        data = JSON.parse(event.data);
+      } catch (error) {
+        console.log(`Error parsing websocket event: ${error}`);
+      }
+      //const symbol = data.id;
+
+      // if (!(symbol in symbolUpdateHeightCache)) {
+      //   console.error(symbol, 'not in symbolUpdateHeightCache:', symbolUpdateHeightCache);
+      //   return;
+      // }
+
+      //let height = 0;
+      try {
+        // height =
+        Number(data.result.data.value.TxResult.height);
+      } catch (error) {
+        // Not a tx
+        // Probably just the /subscribe ok event
+        return;
+      }
+
+      this.result = data.result.data.value.TxResult;
+      // if (height <= symbolUpdateHeightCache[symbol]) {
+      //   console.log('Already updated', symbol, 'for height', height);
+      //   return;
+      // }
+      // symbolUpdateHeightCache[symbol] = height;
+      // //await this.updateBalanceForSymbol(symbol);
+    };
+
+    this.ws.onopen = async () => {
+      const scrtQueries = [
+        `message.sender='${address}'` /* sent a tx (gas) */,
+        `message.signer='${address}'` /* executed a contract (gas) */,
+        `transfer.recipient='${address}'` /* received SCRT */,
+      ];
+
+      for (const query of scrtQueries) {
+        this.ws.send(
+          JSON.stringify({
+            jsonrpc: '2.0',
+            id: 'SCRT', // jsonrpc id
+            method: 'subscribe',
+            params: { query },
+          }),
+        );
+      }
+    };
+  };
+
+  public getTxForAddress = async (address: string): Promise<any> => {
+    this.initWebSocket(address).then(() => {});
+
+    while (!this.result) {
+      await sleep(200);
+    }
+
+    return this.result;
+  };
+}
+
+//for (const token of this.stores.rewards.allData) {
+//         // For any tx on this token's address or rewards pool => update my balance
+//         const symbol = token.inc_token.symbol.replace('s', '');
+//
+//         symbolUpdateHeightCache[symbol] = 0;
+//
+//         const tokenQueries = [
+//           `message.contract_address='${token.inc_token.address}'`,
+//           `wasm.contract_address='${token.inc_token.address}'`,
+//           `message.contract_address='${token.pool_address}'`,
+//           `wasm.contract_address='${token.pool_address}'`,
+//         ];
+//
+//         for (const query of tokenQueries) {
+//           this.ws.send(
+//             JSON.stringify({
+//               jsonrpc: '2.0',
+//               id: symbol, // jsonrpc id
+//               method: 'subscribe',
+//               params: { query },
+//             }),
+//           );
+//         }
+//       }
+
 // private static getHeightFromEvent(data) {
 //   const heightFromEvent =
 //     data?.result?.data?.value?.TxResult?.height || data?.result?.data?.value?.block?.header?.height || 0;
@@ -191,7 +305,6 @@
 //   this.setState({ queries: [] });
 // }
 
-
 // private async onMessage(event: WebSocketMessageEvent | MessageEvent<any>) {
 //   try {
 //     const data = JSON.parse(event.data);
@@ -265,7 +378,6 @@
 //   //}
 // };
 
-
 // *** componentDidUpdate ***
 //const tokensToRefresh = [];
 
@@ -308,6 +420,5 @@
 //   // because we need to know about changes in pool sizes
 //   //this.registerRoutesQueries();
 // }
-
 
 //   async reRegisterPairHooks() {}

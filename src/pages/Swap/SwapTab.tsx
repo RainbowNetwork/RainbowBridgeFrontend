@@ -20,6 +20,7 @@ import { RouteRow } from 'components/Swap/RouteRow';
 import { Token } from './types/trade';
 import { AsyncSender } from '../../blockchain-bridge/scrt/asyncSender';
 import { UserStoreEx } from '../../stores/UserStore';
+import { notify } from '../Earn';
 
 const BUTTON_MSG_ENTER_AMOUNT = 'Enter an amount';
 const BUTTON_MSG_NO_TRADNIG_PAIR = 'Trading pair does not exist';
@@ -66,6 +67,7 @@ function executeRouterSwap(
         },
       ],
       getFeeForExecute(bestRoute.length * 400_000),
+      notify,
     );
   } else {
     return secretjsSender.asyncExecute(
@@ -86,6 +88,7 @@ function executeRouterSwap(
       '',
       [],
       getFeeForExecute(bestRoute.length * 400_000),
+      notify,
     );
   }
 }
@@ -116,6 +119,7 @@ function executeSwapUscrt(secretjsSender: AsyncSender, pair: SwapPair, fromAmoun
       },
     ],
     getFeeForExecute(500_000),
+    notify,
   );
 }
 

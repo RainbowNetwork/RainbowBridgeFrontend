@@ -118,124 +118,6 @@ export class UserStoreEx extends StoreConstructor {
     }
   }
 
-  @action public async websocketInit() {
-    if (this.ws) {
-      while (this.ws.readyState === WebSocket.CONNECTING) {
-        await sleep(100);
-      }
-
-      if (this.ws.readyState === WebSocket.OPEN) {
-        this.ws.close(1012 /* Service Restart */, 'Refreshing connection');
-      }
-    }
-
-    this.ws = new WebSocket(process.env.SECRET_WS);
-
-    const symbolUpdateHeightCache: { [symbol: string]: number } = {};
-
-    this.ws.onmessage = async event => {
-      try {
-        const data = JSON.parse(event.data);
-
-        const symbol = data.id;
-
-        if (!(symbol in symbolUpdateHeightCache)) {
-          console.error(symbol, 'not in symbolUpdateHeightCache:', symbolUpdateHeightCache);
-          return;
-        }
-
-        let height = 0;
-        try {
-          height = Number(data.result.data.value.TxResult.height);
-        } catch (error) {
-          // Not a tx
-          // Probably just the /subscribe ok event
-          return;
-        }
-
-        if (height <= symbolUpdateHeightCache[symbol]) {
-          console.log('Already updated', symbol, 'for height', height);
-          return;
-        }
-        symbolUpdateHeightCache[symbol] = height;
-        //await this.updateBalanceForSymbol(symbol);
-      } catch (error) {
-        console.log(`Error parsing websocket event: ${error}`);
-      }
-    };
-
-    this.ws.onopen = async () => {
-      while (this.stores.tokens.allData.length === 0) {
-        await sleep(100);
-      }
-
-      while (!this.address.startsWith('secret')) {
-        await sleep(100);
-      }
-
-      for (const token of this.stores.rewards.allData) {
-        // For any tx on this token's address or rewards pool => update my balance
-        const symbol = token.inc_token.symbol.replace('s', '');
-
-        symbolUpdateHeightCache[symbol] = 0;
-
-        const tokenQueries = [
-          `message.contract_address='${token.inc_token.address}'`,
-          `wasm.contract_address='${token.inc_token.address}'`,
-          `message.contract_address='${token.pool_address}'`,
-          `wasm.contract_address='${token.pool_address}'`,
-        ];
-
-        for (const query of tokenQueries) {
-          this.ws.send(
-            JSON.stringify({
-              jsonrpc: '2.0',
-              id: symbol, // jsonrpc id
-              method: 'subscribe',
-              params: { query },
-            }),
-          );
-        }
-      }
-
-      // Also hook sSCRT
-      symbolUpdateHeightCache['sSCRT'] = 0;
-      const secretScrtQueries = [
-        `message.contract_address='${process.env.SSCRT_CONTRACT}'`,
-        `wasm.contract_address='${process.env.SSCRT_CONTRACT}'`,
-      ];
-
-      for (const query of secretScrtQueries) {
-        this.ws.send(
-          JSON.stringify({
-            jsonrpc: '2.0',
-            id: 'sSCRT', // jsonrpc id
-            method: 'subscribe',
-            params: { query },
-          }),
-        );
-      }
-
-      symbolUpdateHeightCache['SCRT'] = 0;
-      const scrtQueries = [
-        `message.sender='${this.address}'` /* sent a tx (gas) */,
-        `message.signer='${this.address}'` /* executed a contract (gas) */,
-        `transfer.recipient='${this.address}'` /* received SCRT */,
-      ];
-
-      for (const query of scrtQueries) {
-        this.ws.send(
-          JSON.stringify({
-            jsonrpc: '2.0',
-            id: 'SCRT', // jsonrpc id
-            method: 'subscribe',
-            params: { query },
-          }),
-        );
-      }
-    };
-  }
-
   @action public setInfoReading() {
     this.isInfoReading = true;
     this.syncLocalStorage();
@@ -306,8 +188,6 @@ export class UserStoreEx extends StoreConstructor {
 
     // Ask the user for permission
     await this.keplrWallet.enable(this.chainId);
-
-
 
     // @ts-ignore
     this.keplrOfflineSigner = window.getOfflineSigner(this.chainId);
