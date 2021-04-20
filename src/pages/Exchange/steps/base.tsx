@@ -131,7 +131,7 @@ export const Base = observer(() => {
   const [selectedToken, setSelectedToken] = useState<any>({});
   const [networkTemplates, setNetworkTemplates] = useState<Array<NetworkTemplateInterface>>([
     {
-      name: 'Ethereum',
+      name: 'Polygon',
       wallet: 'Metamask',
       symbol: 'Select a token',
       amount: '',
@@ -210,7 +210,7 @@ export const Base = observer(() => {
 
   useEffect(() => {
     const NTemplate1: NetworkTemplateInterface = {
-      name: exchange.mode === EXCHANGE_MODE.ETH_TO_SCRT ? 'Ethereum' : 'Secret Network',
+      name: exchange.mode === EXCHANGE_MODE.ETH_TO_SCRT ? 'Polygon' : 'Secret Network',
       wallet: exchange.mode === EXCHANGE_MODE.ETH_TO_SCRT ? 'Metamask' : 'Keplr',
       symbol: formatSymbol(
         exchange.mode === EXCHANGE_MODE.ETH_TO_SCRT ? EXCHANGE_MODE.ETH_TO_SCRT : EXCHANGE_MODE.SCRT_TO_ETH,
@@ -222,7 +222,7 @@ export const Base = observer(() => {
     };
 
     const NTemplate2: NetworkTemplateInterface = {
-      name: exchange.mode === EXCHANGE_MODE.ETH_TO_SCRT ? 'Secret Network' : 'Ethereum',
+      name: exchange.mode === EXCHANGE_MODE.ETH_TO_SCRT ? 'Secret Network' : 'Polygon',
       wallet: exchange.mode === EXCHANGE_MODE.ETH_TO_SCRT ? 'Keplr' : 'Metamask',
       symbol: formatSymbol(
         exchange.mode === EXCHANGE_MODE.ETH_TO_SCRT ? EXCHANGE_MODE.SCRT_TO_ETH : EXCHANGE_MODE.ETH_TO_SCRT,
@@ -549,7 +549,7 @@ export const Base = observer(() => {
 
               <Input
                 label={
-                  exchange.mode === EXCHANGE_MODE.SCRT_TO_ETH ? 'Destination ETH Address' : 'Destination Secret Address'
+                  exchange.mode === EXCHANGE_MODE.SCRT_TO_ETH ? 'Destination Polygon Address' : 'Destination Secret Address'
                 }
                 name={exchange.mode === EXCHANGE_MODE.SCRT_TO_ETH ? 'ethAddress' : 'scrtAddress'}
                 style={{ width: '100%' }}
@@ -650,7 +650,7 @@ export const Base = observer(() => {
                   if (exchange.step.id === EXCHANGE_STEPS.BASE) onClickHandler(exchange.step.onClickSend);
                 }}
               >
-                {exchange.mode === EXCHANGE_MODE.ETH_TO_SCRT ? 'Bridge to Secret Network' : 'Bridge to Ethereum'}
+                {exchange.mode === EXCHANGE_MODE.ETH_TO_SCRT ? 'Bridge to Secret Network' : 'Bridge to Polygon'}
               </Button>
             </Box>
           </Box>

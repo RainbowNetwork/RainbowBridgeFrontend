@@ -80,7 +80,7 @@ export const NetworkTemplate = (props: {
         <Box direction="column" style={{ minWidth: 230 }}>
             <Box direction="row" align={"start"} margin={{ top: 'xxsmall' }}>
                 <Box direction="column" style={{ marginRight: 7 }} align="center">
-                    <img style={{ marginBottom: 5 }} height="37" src={props.template.name === "Ethereum" ? "/static/eth.svg" : "/static/scrt.svg"} />
+                    <img style={{ marginBottom: 5 }} height="37" src={props.template.name === "Polygon" ? "/static/poly.svg" : "/static/scrt.svg"} />
                     <IconUI style={{ margin: 0 }} className={'circle'} color={props.template.health ? 'green' : 'red'} />
                 </Box>
 
