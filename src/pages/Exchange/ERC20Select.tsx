@@ -38,7 +38,7 @@ export const ERC20Select = observer((props: {
     <Box direction="column">
       <Box direction="row" align="center" justify="between">
         <Text size="large" bold>
-          {exchange.mode === EXCHANGE_MODE.SCRT_TO_ETH ? 'SecretToken' : 'Ethereum Asset'}
+          {exchange.mode === EXCHANGE_MODE.SCRT_TO_ETH ? 'SecretToken' : 'Polygon Asset'}
         </Text>
       </Box>
 

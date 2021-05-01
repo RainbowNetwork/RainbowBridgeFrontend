@@ -177,7 +177,7 @@ export const SwapConfirmation = observer(() => {
                 </Box>
               </Box>
               <Box direction="row" margin={{ top: 'small' }} justify="between">
-                <Text>Ethereum Address:</Text>
+                <Text>Polygon Address:</Text>
                 <Box direction="row">
                   <Text size="small" style={{ fontFamily: 'monospace' }}>
                     {truncateAddressString(exchange.transaction.ethAddress)}
@@ -213,7 +213,7 @@ export const SwapConfirmation = observer(() => {
                   src={exchange.mode === EXCHANGE_MODE.SCRT_TO_ETH ? '/static/scrt.svg' : '/static/eth.svg'}
                 />
                 <Text bold size="small" color="#00ADE8">
-                  {exchange.mode === EXCHANGE_MODE.SCRT_TO_ETH ? 'Secret Network Fee' : 'Ethereum Fee'}
+                  {exchange.mode === EXCHANGE_MODE.SCRT_TO_ETH ? 'Secret Network Fee' : 'Polygon Fee'}
                 </Text>
               </Box>
               {exchange.isFeeLoading ? (
@@ -232,7 +232,7 @@ export const SwapConfirmation = observer(() => {
                 <Box className={styles.warningSign} direction="row" align="center">
                   <img style={{ marginRight: 6, width: 12 }} src={'/static/eth.svg'} />
                   <Text bold size="small" color="#00ADE8" margin={{ right: 'xxsmall' }}>
-                    Ethereum Fee
+                    Polygon Fee
                   </Text>
                 </Box>
                 {exchange.isFeeLoading ? (

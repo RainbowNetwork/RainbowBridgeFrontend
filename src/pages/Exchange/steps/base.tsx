@@ -116,8 +116,8 @@ const getBalance = async (
         ? '0'
         : user.balanceToken['Ethereum'];
     scrt.minAmount = `${Math.max(Number(swapFeeToken), Number(token.display_props.min_from_scrt))}` || '0';
-    eth.maxAmount = exchange.transaction.tokenSelected.symbol === 'ETH' ? userMetamask.ethBalance : '0';
-    eth.minAmount = exchange.transaction.tokenSelected.symbol === 'ETH' ? userMetamask.ethBalanceMin || '0' : '0';
+    eth.maxAmount = exchange.transaction.tokenSelected.symbol === 'MATIC' ? userMetamask.ethBalance : '0';
+    eth.minAmount = exchange.transaction.tokenSelected.symbol === 'MATIC' ? userMetamask.ethBalanceMin || '0' : '0';
   }
 
   if (isLocked) {
@@ -243,7 +243,7 @@ export const Base = observer(() => {
   useEffect(() => {
     if (
       Number(exchange.transaction.amount) > 0 &&
-      selectedToken.symbol === 'ETH' &&
+      selectedToken.symbol === 'MATIC' &&
       exchange.mode === EXCHANGE_MODE.ETH_TO_SCRT &&
       exchange.transaction.amount >= maxAmount
     ) {
@@ -258,7 +258,7 @@ export const Base = observer(() => {
       exchange.mode === EXCHANGE_MODE.ETH_TO_SCRT &&
       !exchange.isTokenApproved &&
       exchange.transaction.erc20Address !== '' &&
-      selectedToken.symbol !== 'ETH';
+      selectedToken.symbol !== 'MATIC';
 
     setToApprove(approve);
     if (approve) setProgress(1);
@@ -269,14 +269,14 @@ export const Base = observer(() => {
       exchange.isTokenApproved &&
       !toApprove &&
       exchange.mode === EXCHANGE_MODE.ETH_TO_SCRT &&
-      selectedToken.symbol !== 'ETH'
+      selectedToken.symbol !== 'MATIC'
     )
       setProgress(2);
   }, [selectedToken, toApprove, exchange.isTokenApproved, exchange.mode]);
 
   useEffect(() => {
     const address =
-      exchange.mode === EXCHANGE_MODE.SCRT_TO_ETH ? exchange.transaction.ethAddress : exchange.transaction.scrtAddress;
+    exchange.mode === EXCHANGE_MODE.SCRT_TO_ETH ? exchange.transaction.ethAddress : exchange.transaction.scrtAddress;
     const value =
       errors.token === '' &&
       errors.amount === '' &&
@@ -297,7 +297,9 @@ export const Base = observer(() => {
     exchange.transaction.scrtAddress,
   ]);
 
+  // Select token
   const onSelectedToken = async value => {
+    console.log("Base -> value", value)
     const token = tokens.allData.find(t => t.src_address === value);
     setProgress(0);
     const newerrors = errors;
@@ -305,8 +307,8 @@ export const Base = observer(() => {
       eth: { minAmount: 'loading', maxAmount: 'loading' },
       scrt: { minAmount: 'loading', maxAmount: 'loading' },
     });
-    token.display_props.symbol === 'ETH' ? exchange.setToken(TOKEN.ETH) : exchange.setToken(TOKEN.ERC20);
-    if (token.display_props.symbol === 'ETH') user.snip20Address = token.dst_address;
+    token.display_props.symbol === 'MATIC' ? exchange.setToken(TOKEN.ETH) : exchange.setToken(TOKEN.ERC20);
+    if (token.display_props.symbol === 'MATIC') user.snip20Address = token.dst_address;
     if (token.display_props.symbol !== exchange.transaction.tokenSelected.symbol) {
       exchange.transaction.amount = '';
       newerrors.amount = '';
@@ -319,7 +321,7 @@ export const Base = observer(() => {
       src_coin: token.src_coin,
     };
 
-    if (token.display_props.symbol !== 'ETH') {
+    if (token.display_props.symbol !== 'MATIC') {
       exchange.transaction.erc20Address = value;
       await exchange.checkTokenApprove(value);
     }
@@ -338,7 +340,7 @@ export const Base = observer(() => {
     setTokenLocked(false);
 
     try {
-      if (token.display_props.symbol !== 'ETH') await userMetamask.setToken(value, tokens);
+      if (token.display_props.symbol !== 'MATIC') await userMetamask.setToken(value, tokens);
       await user.updateBalanceForSymbol(token.display_props.symbol);
       update();
     } catch (e) {
@@ -620,7 +622,7 @@ export const Base = observer(() => {
             <Box direction="row">
               {exchange.mode === EXCHANGE_MODE.ETH_TO_SCRT &&
                 selectedToken.symbol !== '' &&
-                selectedToken.symbol !== 'ETH' && (
+                selectedToken.symbol !== 'MATIC' && (
                   <Button
                     disabled={exchange.tokenApprovedLoading || !toApprove}
                     bgColor={'#00ADE8'}

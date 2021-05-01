@@ -161,7 +161,7 @@ export const CheckTransaction = observer(() => {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      View on Etherscan
+                      View on Matic Explorer
                     </a>
                   </Text>
                 </Box>

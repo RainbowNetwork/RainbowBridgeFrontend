@@ -35,7 +35,7 @@ export const Price = observer(
   (props: { value: number; valueUsd?: number; isEth?: boolean; boxProps?: BoxProps; token?: string }) => {
     const { user } = useStores();
 
-    const tokenName = props.token || (props.isEth ? 'ETH' : 'SCRT');
+    const tokenName = props.token || (props.isEth ? 'MATIC' : 'SCRT');
     const valueUsd = props.valueUsd ? props.valueUsd : props.value * (props.isEth ? user.ethRate : user.scrtRate);
     return (
       <Box direction="column" align="end" justify="center" pad={{ right: 'medium' }} {...props.boxProps}>

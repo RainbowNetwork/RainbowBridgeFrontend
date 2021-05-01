@@ -645,7 +645,7 @@ export class UserStoreEx extends StoreConstructor {
 
     this.scrtRate = scrtbtc.body.lastPrice * btcusdt.body.lastPrice;
 
-    const ethusdt = await agent.get<{ body: IOperation }>('https://api.binance.com/api/v1/ticker/24hr?symbol=ETHUSDT');
+    const ethusdt = await agent.get<{ body: IOperation }>('https://api.binance.com/api/v1/ticker/24hr?symbol=MATICUSDT');
 
     this.ethRate = ethusdt.body.lastPrice;
   }

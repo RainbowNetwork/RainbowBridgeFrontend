@@ -164,7 +164,7 @@ export const Tokens = observer((props: any) => {
         token.symbol = token.display_props.symbol;
       } catch (error) {
         if (token.src_coin === 'Ethereum') {
-          token.symbol = 'ETH';
+          token.symbol = 'MATIC';
         } else {
           token.symbol = '--';
         }

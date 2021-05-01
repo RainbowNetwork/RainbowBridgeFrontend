@@ -36,7 +36,7 @@ export const Price = observer((props: { value: number; isEth: boolean; boxProps?
 
   return (
     <Box direction="column" align="end" justify="center" pad={{ right: 'medium' }} {...props.boxProps}>
-      <Text style={{ fontSize: 14 }}>{`${props.value} ${props.isEth ? 'ETH' : 'SCRT'}`}</Text>
+      <Text style={{ fontSize: 14 }}>{`${props.value} ${props.isEth ? 'MATIC' : 'SCRT'}`}</Text>
       <Text size="xsmall" color="rgba(102, 102, 102, 0.9)">
         ${formatWithSixDecimals(props.value * (props.isEth ? user.ethRate : user.scrtRate))}
       </Text>

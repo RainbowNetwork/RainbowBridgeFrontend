@@ -88,6 +88,7 @@ export const getTokensInfo = async (params: any): Promise<{ content: ITokenInfo[
     agent.get<{ body: { tokens: ITokenInfo[] } }>(url, params),
     agent.get<{ body: { tokens: ISecretToken[] } }>(secretTokenListUrl, params),
   ]);
+  console.log("tokens, secretTokens", tokens.body.tokens, secretTokens.body.tokens)
 
   let content = tokens.body.tokens
     .filter(t => (process.env.TEST_COINS ? t : !t.display_props.hidden))
