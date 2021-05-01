@@ -95,6 +95,7 @@ export const ERC20ApprovalModal = observer(() => {
                 onClick={() => {
                   if (exchange.transaction.loading) return '';
                   if (exchange.isTokenApproved) return (exchange.stepNumber = EXCHANGE_STEPS.BASE);
+                  // Calls Exchange 
                   return exchange.step.onClick();
                 }}
               >

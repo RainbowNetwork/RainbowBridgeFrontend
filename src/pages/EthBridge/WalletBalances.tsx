@@ -90,7 +90,7 @@ export const WalletBalances = observer(() => {
         </Button> : <WalletTemplate
           address={userMetamask.ethAddress}
           amount={userMetamask.ethBalance}
-          symbol="ETH"
+          symbol="MATIC"
         />
         }
       </Box>

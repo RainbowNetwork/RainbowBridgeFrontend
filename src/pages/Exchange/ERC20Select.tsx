@@ -32,6 +32,8 @@ export const ERC20Select = observer((props: {
 
   const bridgeTokens = tokens.tokensUsageSync('BRIDGE');
 
+
+  // Token select
   return (
     <Box direction="column">
       <Box direction="row" align="center" justify="between">

@@ -14,7 +14,9 @@ import * as agent from 'superagent';
 import { SwapStatus } from '../constants';
 
 const backendUrl = url => {
-  return `${process.env.BACKEND_URL}${url}`;
+  const res = `${process.env.BACKEND_URL}${url}`;
+  console.log("res", res)
+  return res
 };
 
 export const getSushiPool = async (address: String) => {
@@ -50,6 +52,7 @@ export const getStatus = async (params): Promise<SwapStatus> => {
   }
 };
 
+// Endpoint
 export const getOperation = async (params): Promise<{ operation: IOperation; swap: ISwap }> => {
   const url = backendUrl(`/operations/${params.id}`);
 
@@ -111,7 +114,9 @@ export const getTokensInfo = async (params: any): Promise<{ content: ITokenInfo[
   });
 
   content.push(...sTokens);
+  console.log("content", content)
 
+// Hard code tokens here
   return { content };
 };
 
@@ -134,6 +139,8 @@ export const getSecretSwapPools = async (params: any): Promise<{ content: ISecre
 
   return { content: content };
 };
+
+// ABI, contact need to change
 
 export const getSignerHealth = async (): Promise<{ content: ISignerHealth[] }> => {
   const url = backendUrl('/signer_health/');

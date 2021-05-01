@@ -24,6 +24,7 @@ export class Tokens extends ListStoreConstructor<ITokenInfo> {
     return this.data.reduce((acc, v) => acc + Number(v.totalLockedUSD), 0);
   }
 
+  // Tokens are from here
   tokensUsageSync(usage: TOKEN_USAGE) {
     return this.allData.filter(token => {
 //      console.log(token.display_props.usage.includes(usage))

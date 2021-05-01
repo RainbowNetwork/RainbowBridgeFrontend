@@ -312,6 +312,7 @@ export class UserStoreEx extends StoreConstructor {
     const accounts = await this.keplrOfflineSigner.getAccounts();
     this.address = accounts[0].address;
     this.isAuthorized = true;
+    // Set up secretjs send
     // @ts-ignore
     this.secretjsSend = this.initSecretJS(process.env.SECRET_POST_ADDRESS, true);
     this.secretjs = this.initSecretJS(process.env.SECRET_LCD, false);

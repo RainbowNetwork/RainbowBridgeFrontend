@@ -98,7 +98,9 @@ const getBalance = async (
   const swapFeeToken = ((swapFeeUsd / Number(token.price)) * 0.9).toFixed(`${toInteger(token.price)}`.length);
 
   const src_coin = exchange.transaction.tokenSelected.src_coin;
+  console.log("src_coin", src_coin)
 
+  console.log("user", user)
   if (exchange.token === TOKEN.ERC20) {
     if (!userMetamask.erc20TokenDetails) {
       eth.maxAmount = '0';
@@ -122,6 +124,7 @@ const getBalance = async (
     scrt.maxAmount = unlockToken;
   }
 
+  console.log("eth, scrt", eth, scrt)
   return { eth, scrt };
 };
 
@@ -176,6 +179,7 @@ export const Base = observer(() => {
     const parseHealth = (signers: ISignerHealth[]): boolean => {
       for (const signer of signers) {
         if (signer.signer === process.env.LEADER_ACCOUNT && signers.length >= Number(process.env.SIG_THRESHOLD)) {
+          console.log("Base -> process.env.LEADER_ACCOUNT", process.env)
           return true;
         }
       }

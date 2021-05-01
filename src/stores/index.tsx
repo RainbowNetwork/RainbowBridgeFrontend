@@ -43,6 +43,8 @@ if (!process.env.production) {
   window.stores = stores;
 }
 
+// Context part
+
 const { StoresProvider, useStores } = createStoresContext<typeof stores>();
 export { StoresProvider, useStores };
 

@@ -18,7 +18,7 @@ export const OperationType = (props: { type: EXCHANGE_MODE }) => {
     >
       <Box direction="row" align="center">
         <img className={styles.imgToken} style={{ height: 20 }} src="/static/eth.svg" />
-        <Text size="medium">ETH</Text>
+        <Text size="medium">MATIC</Text>
       </Box>
       <Box direction="row" margin={{ horizontal: 'xsmall' }} align="center">
         <img src="/static/right.svg" />
@@ -96,7 +96,7 @@ export const ERC20Token = observer((props: IERC20TokenProps) => {
         );
     }
   } else if (value === TOKEN.ETH) {
-    return <Box>ETH</Box>;
+    return <Box>MATIC</Box>;
   }
 
   return <Box>{value ? value.toUpperCase() : '--'}</Box>;

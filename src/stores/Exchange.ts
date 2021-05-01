@@ -106,6 +106,7 @@ export class Exchange extends StoreConstructor {
     [EXCHANGE_STEPS.BASE]: {
       id: EXCHANGE_STEPS.BASE,
       modal: false,
+      // Sending logic entry point
       onClickSend: async () => {
         this.transaction.erc20Address = this.stores.userMetamask.erc20Address;
         this.transaction.snip20Address = this.stores.user.snip20Address;
@@ -307,6 +308,7 @@ export class Exchange extends StoreConstructor {
     try {
       this.actionStatus = 'fetching';
       this.confirmations = 0;
+      console.log("Exchange -> sendOperation -> this.transaction", this.transaction)
       this.transaction.erc20Address = this.transaction.erc20Address.trim();
       this.transaction.scrtAddress = this.transaction.scrtAddress.trim();
       this.transaction.ethAddress = this.transaction.ethAddress.trim();
@@ -314,6 +316,7 @@ export class Exchange extends StoreConstructor {
       this.transaction.loading = true;
       this.transaction.error = '';
 
+      // Calls to backend
       if (this.mode === EXCHANGE_MODE.SCRT_TO_ETH) {
         await this.swapSnip20ToEth(this.token === TOKEN.ETH);
       } else if (this.mode === EXCHANGE_MODE.ETH_TO_SCRT) {
@@ -325,6 +328,7 @@ export class Exchange extends StoreConstructor {
             await this.swapErc20ToScrt();
           }
         } else {
+          // Ignore
           await this.swapEthToScrt();
         }
       }

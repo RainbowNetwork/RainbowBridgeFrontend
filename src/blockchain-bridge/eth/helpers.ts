@@ -6,6 +6,7 @@ import { web3 } from './index';
 const BN = require('bn.js');
 
 export const getGasPrice = async (web3: Web3) => {
+  // Change gas price to Polygon
   const gasPrice = new BN(await web3.eth.getGasPrice()).mul(new BN(1));
 
   let gasPriceApi = 0;

@@ -118,7 +118,7 @@ export const Details = observer<{ showTotal?: boolean; children?: any }>(({ show
                       ? userMetamask.erc20TokenDetails?.symbol === 'WSCRT'
                         ? 'SSCRT'
                         : userMetamask.erc20TokenDetails?.symbol
-                      : 'ETH'
+                      : 'MATIC'
                   }
                   boxProps={{ pad: {} }}
                 />
